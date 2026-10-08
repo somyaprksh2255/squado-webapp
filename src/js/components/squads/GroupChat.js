@@ -1,8 +1,6 @@
 /* One squad conversation: header (plan context), messages, composer */
-
 function groupChat(id) {
     const p = pl(id);
-
     if (!p || !p.members.includes('me'))
         return `<section class="gpanel">${empty(
             'No access',
@@ -10,29 +8,22 @@ function groupChat(id) {
             'See the plan',
             '#/plan/' + id
         )}</section>`;
-
     const L = msgs(id).filter(
         m =>
             !m.by ||
             !S.blocked.includes(m.by)
     );
-
     let prev = '';
-
     const rows = L
         .map(
             m => {
                 if (m.sys) {
                     prev = '';
-
                     return `<div class="sys">${esc(m.x)}</div>`;
                 }
-
                 const me = m.by == 'me';
                 const first = m.by != prev;
-
                 prev = m.by;
-
                 return `
                     <div class="m ${me ? 'mo' : ''}">
                         ${
@@ -44,14 +35,12 @@ function groupChat(id) {
                                         : '<span class="avs"></span>'
                                 )
                         }
-
                         <div class="mb">
                             ${
                                 !me && first
                                     ? `<small class="mn">${esc(usr(m.by).name)}</small>`
                                     : ''
                             }
-
                             ${
                                 m.type == 'photo' || m.type == 'photo-location'
                                     ? `
@@ -66,7 +55,6 @@ function groupChat(id) {
                                                 alt="Photo shared in chat"
                                                 style="display:block;max-width:240px;border-radius:12px"
                                             >
-
                                             ${
                                                 m.type == 'photo-location' && m.loc
                                                     ? `
@@ -102,9 +90,7 @@ function groupChat(id) {
                                             </button>
                                         `
                             }
-
                             <small class="mt">${m.t || ''}</small>
-
                             ${
                                 m.r
                                     ? `<span class="rx">${m.r}</span>`
@@ -116,9 +102,7 @@ function groupChat(id) {
             }
         )
         .join('');
-
     const d = (O.chat.draft || '').trim();
-
     return `
         <section
             class="gpanel"
@@ -132,14 +116,11 @@ function groupChat(id) {
                 >
                     ${I('arrow-left', '22px')}
                 </a>
-
                 ${gAvatar(p, '42px')}
-
                 <div class="gtx">
                     <b>${esc(p.title)}</b>
                     <span class="mut">${planCtx(p)}</span>
                 </div>
-
                 <button
                     class="iconbtn"
                     data-a="gopts"
@@ -149,19 +130,31 @@ function groupChat(id) {
                     ${I('ellipsis-vertical', '22px')}
                 </button>
             </header>
-
             <div
                 class="gmsgs"
                 aria-live="polite"
             >
                 ${rows}
-
                 <p class="sys">
                     Tap a message to react
                 </p>
             </div>
-
             <div class="comp">
+                <button
+                    class="chip"
+                    data-a="notifs"
+                    aria-label="Notifications"
+                >
+                    ${I('bell', '18px')}
+                </button>
+                <button
+                    class="chip"
+                    data-a="openMediaLocation"
+                    data-v="${id}"
+                    aria-label="Share location"
+                >
+                    ${I('map-pin', '18px')}
+                </button>
                 <button
                     class="chip"
                     data-a="attachments"
@@ -170,7 +163,6 @@ function groupChat(id) {
                 >
                     ${I('paperclip', '18px')}
                 </button>
-
                 <input
                     type="text"
                     id="mi"
@@ -180,7 +172,6 @@ function groupChat(id) {
                     placeholder="Message your squad"
                     aria-label="Message"
                 >
-
                 <button
                     id="sendbtn"
                     class="btn pink sm"
@@ -195,11 +186,9 @@ function groupChat(id) {
         </section>
     `;
 }
-
 function groupOptions(id) {
     const p = pl(id);
     const host = p.creator == 'me';
-
     const R = (
         i,
         l,
@@ -212,30 +201,25 @@ function groupOptions(id) {
             </b>
             ${I('chevron-right')}
         </button>`;
-
     return `
         <h2 style="margin-top:0">
             ${esc(p.title)}
         </h2>
-
         ${R(
             'map-pinned',
             'View plan',
             `data-a="goPlan" data-v="${id}"`
         )}
-
         ${R(
             'users-round',
             'View members',
             `data-a="members" data-v="${id}"`
         )}
-
         ${R(
             'info',
             'Group info',
             `data-a="ginfo" data-v="${id}"`
         )}
-
         ${
             p.status == 'open'
                 ? R(
@@ -245,13 +229,11 @@ function groupOptions(id) {
                 )
                 : ''
         }
-
         ${R(
             'flag',
             'Report plan',
             `data-a="report" data-k="plan" data-v="${id}"`
         )}
-
         ${
             host || p.status != 'open'
                 ? ''
@@ -263,21 +245,17 @@ function groupOptions(id) {
         }
     `;
 }
-
 function groupInfo(id) {
     const p = pl(id);
-
     return `
         <h2 style="margin-top:0">
             Group info
         </h2>
-
         <div
             class="row"
             style="margin-bottom:12px"
         >
             ${gAvatar(p, '52px')}
-
             <div>
                 <b>${esc(p.title)}</b>
                 <br>
@@ -286,11 +264,9 @@ function groupInfo(id) {
                 </span>
             </div>
         </div>
-
         <p>
             ${esc(p.desc)}
         </p>
-
         <p class="mut">
             📍 ${esc(p.loc)} (approximate)
             · Hosted by ${esc(usr(p.creator).name)}
@@ -300,7 +276,6 @@ function groupInfo(id) {
                     : ''
             }
         </p>
-
         <div
             class="stack"
             style="margin:8px 0"
@@ -309,7 +284,6 @@ function groupInfo(id) {
                 .map(m => av(m, 38))
                 .join('')}
         </div>
-
         <p class="mut">
             ${p.members.length} / ${p.max} people
         </p>
