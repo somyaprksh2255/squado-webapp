@@ -1,54 +1,20 @@
 function tick() {
     let ch = 0;
     const n = Date.now();
-
     S.plans.forEach(p => {
         if (p.status != 'open')
             return;
-
-        p.reqs
-            .filter(
-                r =>
-                    r.u == 'me' &&
-                    p.creator != 'me' &&
-                    n - r.at > 4500
-            )
-            .forEach(r => {
-                p.reqs = p.reqs.filter(x => x != r);
-                ch = 1;
-
-                if (
-                    p.members.length < p.max &&
-                    Math.random() < .85
-                ) {
-                    p.members.push('me');
-                    S.me.rel.joined++;
-
-                    sys(
-                        p.id,
-                        `${S.me.name} joined the squad 👋`
-                    );
-
-                    toast('You\'re in 🫡 Host accepted you');
-                    confetti();
-                }
-                else {
-                    (p.rej = p.rej || []).push('me');
-                    toast('Host passed this time. Try another plan 🫶');
-                }
-            });
-
         if (
             p.creator == 'me' &&
             p.simAt &&
             n > p.simAt
         ) {
             p.simAt = 0;
-
             const c = S.users.filter(
                 u =>
                     !S.blocked.includes(u.id) &&
                     !p.members.includes(u.id) &&
+                    !(p.reqs || []).some(r => r.u == u.id) &&
                     (
                         p.who == 'Everyone' ||
                         (
@@ -61,111 +27,36 @@ function tick() {
                         )
                     )
             );
-
             if (c.length) {
                 const u = c[Math.random() * c.length | 0];
-
                 p.reqs.push({
                     u: u.id,
                     at: n
                 });
-
+                S.notifs.unshift({
+                    id: `join-${p.id}-${u.id}-${n}`,
+                    type: 'join_request',
+                    ic: 'user-plus',
+                    c: 'pink',
+                    t: `${u.name} wants to join your squad`,
+                    b: `${p.title} · tap to review`,
+                    w: 'now',
+                    u: 1,
+                    h: '',
+                    planId: p.id,
+                    userId: u.id
+                });
                 ch = 1;
                 toast(u.name + ' wants to join your squad 👀');
             }
         }
     });
-
     if (ch) {
         save();
-
-        if (!/INPUT|TEXTAREA/.test(document.activeElement.tagName))
-            render();
-    }
-}
-
-function tick() {
-    let ch = 0;
-    const n = Date.now();
-
-    S.plans.forEach(p => {
-        if (p.status != 'open')
-            return;
-
-        p.reqs
-            .filter(
-                r =>
-                    r.u == 'me' &&
-                    p.creator != 'me' &&
-                    n - r.at > 4500
-            )
-            .forEach(r => {
-                p.reqs = p.reqs.filter(x => x != r);
-                ch = 1;
-
-                if (
-                    p.members.length < p.max &&
-                    Math.random() < .85
-                ) {
-                    p.members.push('me');
-                    S.me.rel.joined++;
-
-                    sys(
-                        p.id,
-                        `${S.me.name} joined the squad 👋`
-                    );
-
-                    toast('You\'re in 🫡 Host accepted you');
-                    confetti();
-                }
-                else {
-                    (p.rej = p.rej || []).push('me');
-                    toast('Host passed this time. Try another plan 🫶');
-                }
-            });
-
         if (
-            p.creator == 'me' &&
-            p.simAt &&
-            n > p.simAt
-        ) {
-            p.simAt = 0;
-
-            const c = S.users.filter(
-                u =>
-                    !S.blocked.includes(u.id) &&
-                    !p.members.includes(u.id) &&
-                    (
-                        p.who == 'Everyone' ||
-                        (
-                            p.who == 'Girls only' &&
-                            u.gender == 'Girl'
-                        ) ||
-                        (
-                            p.who == 'Boys only' &&
-                            u.gender == 'Boy'
-                        )
-                    )
-            );
-
-            if (c.length) {
-                const u = c[Math.random() * c.length | 0];
-
-                p.reqs.push({
-                    u: u.id,
-                    at: n
-                });
-
-                ch = 1;
-                toast(u.name + ' wants to join your squad 👀');
-            }
-        }
-    });
-
-    if (ch) {
-        save();
-
-        if (!/INPUT|TEXTAREA/.test(document.activeElement.tagName))
+            document.activeElement &&
+            !/INPUT|TEXTAREA/.test(document.activeElement.tagName)
+        )
             render();
     }
 }

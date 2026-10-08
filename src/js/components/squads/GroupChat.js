@@ -52,14 +52,56 @@ function groupChat(id) {
                                     : ''
                             }
 
-                            <button
-                                class="bub"
-                                data-a="react"
-                                data-k="${id}"
-                                data-v="${msgs(id).indexOf(m)}"
-                            >
-                                ${esc(m.x)}
-                            </button>
+                            ${
+                                m.type == 'photo' || m.type == 'photo-location'
+                                    ? `
+                                        <button
+                                            class="bub"
+                                            data-a="react"
+                                            data-k="${id}"
+                                            data-v="${msgs(id).indexOf(m)}"
+                                        >
+                                            <img
+                                                src="${esc(m.src)}"
+                                                alt="Photo shared in chat"
+                                                style="display:block;max-width:240px;border-radius:12px"
+                                            >
+
+                                            ${
+                                                m.type == 'photo-location' && m.loc
+                                                    ? `
+                                                        <span
+                                                            style="display:block;margin-top:6px"
+                                                        >
+                                                            📍 Location shared
+                                                        </span>
+                                                    `
+                                                    : ''
+                                            }
+                                        </button>
+                                    `
+                                    : m.type == 'location'
+                                        ? `
+                                            <button
+                                                class="bub"
+                                                data-a="react"
+                                                data-k="${id}"
+                                                data-v="${msgs(id).indexOf(m)}"
+                                            >
+                                                📍 Location shared
+                                            </button>
+                                        `
+                                        : `
+                                            <button
+                                                class="bub"
+                                                data-a="react"
+                                                data-k="${id}"
+                                                data-v="${msgs(id).indexOf(m)}"
+                                            >
+                                                ${esc(m.x)}
+                                            </button>
+                                        `
+                            }
 
                             <small class="mt">${m.t || ''}</small>
 
@@ -122,20 +164,11 @@ function groupChat(id) {
             <div class="comp">
                 <button
                     class="chip"
-                    data-a="loc"
+                    data-a="attachments"
                     data-v="${id}"
-                    aria-label="Share location"
+                    aria-label="Add attachment"
                 >
-                    📍
-                </button>
-
-                <button
-                    class="chip"
-                    data-a="img"
-                    data-v="${id}"
-                    aria-label="Share image"
-                >
-                    📷
+                    ${I('paperclip', '18px')}
                 </button>
 
                 <input

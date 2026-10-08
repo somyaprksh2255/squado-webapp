@@ -1,4 +1,5 @@
-/* ---- page + onboarding motion (only on route/step change; base.css disables motion for prefers-reduced-motion) ---- */main[data-pg] {
+/* ---- page + onboarding motion (only on route/step change; base.css disables motion for prefers-reduced-motion) ---- */
+main[data-pg] {
   animation:pgIn .24s ease-out both
 }
 @keyframes pgIn {
@@ -48,7 +49,8 @@ main[data-pg] .grid>*:nth-child(n+4) {
     transform:translateX(14px)
   }
 }
-/* ---- auth states, spinner, loading buttons, confirm ---- */.authst {
+/* ---- auth states, spinner, loading buttons, confirm ---- */
+.authst {
   text-align:center;
   padding:8px 0 16px
 }
@@ -98,7 +100,8 @@ main[data-pg] .grid>*:nth-child(n+4) {
   background:var(--ic-red);
   color:#fff
 }
-/* ---- notifications, search, event ticket, route, preview ---- */.iconbtn {
+/* ---- notifications, search, event ticket, route, preview ---- */
+.iconbtn {
   position:relative;
   width:44px;
   height:44px;
@@ -216,7 +219,8 @@ main[data-pg] .grid>*:nth-child(n+4) {
 .btn:disabled {
   opacity:.45
 }
-/* ---- Groups & chats: list | conversation (mobile: one at a time, full-screen chat) ---- */.nav a b {
+/* ---- Groups & chats: list | conversation (mobile: one at a time, full-screen chat) ---- */
+.nav a b {
   position:relative
 }
 .nbadge {
@@ -322,9 +326,7 @@ main[data-pg] .grid>*:nth-child(n+4) {
   font-style:normal;
   text-align:center
 }
-.gpanel {
-  min-width:0
-}
+
 .ghd {
   position:sticky;
   top:0;
@@ -358,9 +360,14 @@ main[data-pg] .grid>*:nth-child(n+4) {
   white-space:nowrap
 }
 .gmsgs {
+  flex:1 1 auto;
+  min-height:0;
+  overflow-y:auto;
   display:flex;
   flex-direction:column;
-  padding:6px 2px 8px
+  padding:6px 2px 16px;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
 }
 .m {
   display:flex;
@@ -430,6 +437,21 @@ button.li {
   body.in-chat .nav {
     display:none
   }
+  body.in-chat {
+    overflow:hidden;
+  }
+  body.in-chat #app {
+    height:100dvh;
+  }
+  body.in-chat .gwrap {
+    height:100dvh;
+  }
+  body.in-chat .gpanel {
+    height:100dvh;
+    display:flex;
+    flex-direction:column;
+    min-height:0;
+  }
 }
 @media(min-width:900px) {
   .gback {
@@ -449,7 +471,9 @@ button.li {
     padding:2px 6px 6px 2px
   }
   .gwrap .gpanel {
-    display:block
+    display:flex;
+    flex-direction:column;
+    min-height:calc(100vh - 48px);
   }
   .gpanel.ph {
     display:grid;

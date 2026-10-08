@@ -1,18 +1,21 @@
 /* Mock notifications */
-
 const NOTIFS0 = [
     {
         id: 'n1',
+        type: 'join_request',
         ic: 'user-plus',
         c: 'pink',
         t: 'Meera wants to join your squad',
         b: 'Poha jalebi run · tap to review',
         w: '2m',
         u: 1,
-        h: '#/plan/p5'
+        h: '',
+        planId: 'p5',
+        userId: 'u6'
     },
     {
         id: 'n2',
+        type: 'join-approved',
         ic: 'party-popper',
         c: 'green',
         t: 'You\'re in!',

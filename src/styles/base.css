@@ -27,7 +27,8 @@
   --mut:#a79fb5
 }
 html {
-  scroll-padding-top:env(safe-area-inset-top,0px)
+  scroll-padding-top:env(safe-area-inset-top,0px);
+  -webkit-text-size-adjust:100%
 }
 * {
   box-sizing:border-box
@@ -36,7 +37,13 @@ body {
   margin:0;
   background:var(--bg);
   color:var(--ink);
-  font:400 16px/1.5'Poppins',system-ui,sans-serif
+  font:400 16px/1.5'Poppins',system-ui,sans-serif;
+  min-height:100vh;
+  min-height:100dvh;
+  overflow-x:hidden
+}
+body.in-chat {
+  min-height:100dvh
 }
 a {
   color:inherit;
@@ -50,14 +57,6 @@ button {
 :focus-visible {
   outline:3px solid var(--pur);
   outline-offset:2px
-}
-html {
-  -webkit-text-size-adjust:100%
-}
-body {
-  min-height:100vh;
-  min-height:100dvh;
-  overflow-x:hidden
 }
 img,svg,input,textarea {
   max-width:100%
@@ -424,16 +423,18 @@ input[type=text],input[type=time],textarea {
   min-height:50vh
 }
 .comp {
-  position:sticky;
-  bottom:0;
+  flex:0 0 auto;
   display:flex;
+  align-items:center;
   gap:8px;
   background:var(--bg);
-  padding:10px 0 calc(10px + env(safe-area-inset-bottom,0px))
+  padding:10px 0 max(10px,env(safe-area-inset-bottom,0px));
+  position:sticky;
+  bottom:0;
+  z-index:6
 }
-.comp input {
-  flex:1;
-  min-width:0
+body.in-chat .comp {
+  padding-bottom:max(10px,env(safe-area-inset-bottom,0px))
 }
 .modal {
   position:fixed;

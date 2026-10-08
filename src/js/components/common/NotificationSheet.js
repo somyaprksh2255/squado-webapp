@@ -1,11 +1,9 @@
 function notifSheet() {
     const L = S.notifs || [];
-
     return `
         <h2 style="margin-top:0">
             Notifications
         </h2>
-
         ${
             L.length
                 ? L
@@ -14,8 +12,10 @@ function notifSheet() {
                             `
                                 <a
                                     class="li"
-                                    href="${n.h}"
-                                    data-a="close"
+                                    href="${n.h || '#'}"
+                                    data-a="${n.type == 'join_request' ? 'reviewRequest' : 'close'}"
+                                    data-k="${n.planId || ''}"
+                                    data-v="${n.userId || ''}"
                                 >
                                     <span
                                         class="nic"
@@ -23,28 +23,37 @@ function notifSheet() {
                                     >
                                         ${I(n.ic, '18px')}
                                     </span>
-
                                     <div
                                         style="flex:1;min-width:0"
                                     >
                                         <b>
                                             ${esc(n.t)}
                                         </b>
-
                                         ${
                                             n.u
                                                 ? ' <i class="dotb inl"></i>'
                                                 : ''
                                         }
-
                                         <br>
-
                                         <span
                                             class="mut"
                                             style="font-size:.85rem"
                                         >
                                             ${esc(n.b)} · ${n.w}
                                         </span>
+                                        ${
+                                            n.type == 'join_request'
+                                                ? `
+                                                    <br>
+                                                    <span
+                                                        class="btn pink sm"
+                                                        style="margin-top:8px"
+                                                    >
+                                                        Review request
+                                                    </span>
+                                                `
+                                                : ''
+                                        }
                                     </div>
                                 </a>
                             `
