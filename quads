@@ -1,0 +1,26 @@
+[35mREADME.md[m[36m:[m[32m11[m[36m:[m- Create Plan (day, time, approximate place, squad size, who can join, host controls, live preview), Still Outside flow, plan continuation ("Tonight's route"), Groups tab (squad list with last message, unread and plan context; full-screen chat on mobile, list | conversation on desktop), ratings/feedback, report/block/leave/cancel with confirmations, [1;31mnotifications[m.
+[35mREADME.md[m[36m:[m[32m34[m[36m:[m  data/                    users · plans · events · [1;31mnotifications[m · chats (all mock data)
+[35mindex.html[m[36m:[m[32m50[m[36m:[m        <script src="src/js/data/[1;31mnotifications[m.js"></script>
+[35msrc/js/app/actions.js[m[36m:[m[32m216[m[36m:[m                S.[1;31mnotifs[m.unshift({
+[35msrc/js/app/actions.js[m[36m:[m[32m251[m[36m:[m            S.[1;31mnotifs[m.unshift({
+[35msrc/js/app/actions.js[m[36m:[m[32m279[m[36m:[m        S.[1;31mnotifs[m.unshift({
+[35msrc/js/app/actions.js[m[36m:[m[32m628[m[36m:[m/* ---- frontend-only extensions (confirmations, [1;31mnotifications[m, loading states) ---- */
+[35msrc/js/app/actions.js[m[36m:[m[32m647[m[36m:[mA.[1;31mnotifs[m = () => {
+[35msrc/js/app/actions.js[m[36m:[m[32m649[m[36m:[m    S.[1;31mnotifs[m.forEach(n => n.u = 0);
+[35msrc/js/components/common/NotificationSheet.js[m[36m:[m[32m2[m[36m:[m    const L = S.[1;31mnotifs[m || [];
+[35msrc/js/components/squads/GroupChat.js[m[36m:[m[32m145[m[36m:[m                    data-a="[1;31mnotifs[m"
+[35msrc/js/components/squads/GroupChat.js[m[36m:[m[32m148[m[36m:[m                    ${I('[1;31mbell[m', '18px')}
+[35msrc/js/data/notifications.js[m[36m:[m[32m1[m[36m:[m/* Mock [1;31mnotifications[m */
+[35msrc/js/pages/home.js[m[36m:[m[32m73[m[36m:[m                    data-a="[1;31mnotifs[m"
+[35msrc/js/pages/home.js[m[36m:[m[32m78[m[36m:[m                    ${I("[1;31mbell[m", "22px")}
+[35msrc/js/pages/settings.js[m[36m:[m[32m22[m[36m:[m                🔔 Plan [1;31mnotifications[m
+[35msrc/js/state/mockSim.js[m[36m:[m[32m36[m[36m:[m                S.[1;31mnotifs[m.unshift({
+[35msrc/js/state/selectors.js[m[36m:[m[32m21[m[36m:[m    (S.[1;31mnotifs[m || []).filter(n => n.u).length;
+[35msrc/js/state/store.js[m[36m:[m[32m42[m[36m:[m    [1;31mnotifs[m: NOTIFS0,
+[35msrc/js/state/store.js[m[36m:[m[32m57[m[36m:[mif (!S.[1;31mnotifs[m)
+[35msrc/js/state/store.js[m[36m:[m[32m58[m[36m:[m    S.[1;31mnotifs[m = NOTIFS0;
+[35msrc/js/utils/icons.js[m[36m:[m[32m100[m[36m:[m  "🔔": "[1;31mbell[m",
+[35msrc/styles/pages.css[m[36m:[m[32m103[m[36m:[m/* ---- [1;31mnotifications[m, search, event ticket, route, preview ---- */
+[35mtests/e2e.test.js[m[36m:[m[32m83[m[36m:[m    // [1;31mnotifications[m + confirm
+[35mtests/e2e.test.js[m[36m:[m[32m85[m[36m:[m    t('home: [1;31mbell[m with unread dot, your squads', app.innerHTML.includes('Notifications, unread') && app.innerHTML.includes('Your squads'));
+[35mtests/e2e.test.js[m[36m:[m[32m86[m[36m:[m    click('[1;31mnotifs[m');
